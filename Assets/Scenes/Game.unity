@@ -97,8 +97,8 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
-  m_LightingDataAsset: {fileID: 0}
-  m_LightingSettings: {fileID: 0}
+  m_LightingDataAsset: {fileID: 112000000, guid: 56ecfb0581d787846b929a48896e084c, type: 2}
+  m_LightingSettings: {fileID: 4890085278179872738, guid: dbbb65647d3fd9f47a2884714729346a, type: 2}
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -737,6 +737,21 @@ MonoBehaviour:
   visor: {fileID: 120089310}
   health: {fileID: 1721665442}
   impact: {fileID: 782416465}
+--- !u!114 &428782979
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 428782977}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 63c5a73b55971ca448ccac0f185f9604, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gimbalRig: {fileID: 749984179}
+  impactLight: {fileID: 782416465}
+  difficulty: 2
 --- !u!1 &516583846
 GameObject:
   m_ObjectHideFlags: 0
@@ -1444,7 +1459,7 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: d66e4315be948b740be268f9233b2e30, type: 2}
     - target: {fileID: 919132149155446097, guid: 049029c207a12a04982c87c40e7a6532, type: 3}
       propertyPath: m_Name
-      value: Gimbal_Ring
+      value: Gimbal_Rig
       objectReference: {fileID: 0}
     - target: {fileID: 3875013559747799817, guid: 049029c207a12a04982c87c40e7a6532, type: 3}
       propertyPath: m_Materials.Array.data[1]
@@ -1934,7 +1949,7 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: 9d76cf0a5e261a14f936bb325319f899, type: 2}
     - target: {fileID: 919132149155446097, guid: 1638c983851dc2546a4612857638caa8, type: 3}
       propertyPath: m_Name
-      value: Controller_ring
+      value: Controller_rig
       objectReference: {fileID: 0}
     - target: {fileID: 1701301799562459933, guid: 1638c983851dc2546a4612857638caa8, type: 3}
       propertyPath: m_Materials.Array.data[1]
