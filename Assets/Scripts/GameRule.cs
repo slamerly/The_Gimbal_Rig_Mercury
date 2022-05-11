@@ -6,18 +6,25 @@ public class GameRule : MonoBehaviour
 {
     public GameObject gimbalRig;
     public GameObject impactLight;
+    public GameObject endScreen;
+    public GameObject winText;
+    public GameObject looseText;
     public int difficulty = 0;
 
     Rotation rotations;
     float maxSpeed = 0f;
     float currentTime;
+    float currentTimeHealth;
+    float timeBeforeCriticalHealth = 30f;
     float nextImpulse = 0;
+    float speed;
     float speedAddToCurrent;
     bool loop = false;
 
     // Start is called before the first frame update
     void Start()
     {
+        Time.timeScale = 1f;
         difficulty = StaticClassCrossScene.Difficulty;
         rotations = gimbalRig.GetComponent<Rotation>();
 
@@ -65,6 +72,7 @@ public class GameRule : MonoBehaviour
         }
 
         currentTime = nextImpulse;
+        currentTimeHealth = timeBeforeCriticalHealth;
     }
 
     // Update is called once per frame
@@ -73,14 +81,29 @@ public class GameRule : MonoBehaviour
         currentTime -= Time.deltaTime;
         Debug.Log(currentTime);
 
+        speed = Mathf.Abs(rotations.rotationSpeed1) + Mathf.Abs(rotations.rotationSpeed2) + Mathf.Abs(rotations.rotationSpeed3);
+
         if (currentTime <= 0)
         {
             if(!loop)
                 StartCoroutine(Impulse());
         }
 
+        if(speed > 472.5f)
+        {
+            currentTimeHealth -= Time.deltaTime;
+            if(currentTimeHealth <= 0)
+            {
+                LooseGame();
+            }
+        }
+        else
+        {
+            currentTimeHealth = timeBeforeCriticalHealth;
+        }
+
         if (Mathf.Abs(rotations.rotationSpeed1) < 0.1f && Mathf.Abs(rotations.rotationSpeed2) < 0.1f && Mathf.Abs(rotations.rotationSpeed3) < 0.1f)
-            EndGame();
+            WinGame();
     }
 
     IEnumerator Impulse()
@@ -91,6 +114,8 @@ public class GameRule : MonoBehaviour
 
         while(cpt > 0)
         {
+            impactLight.transform.GetChild(0).GetComponent<AudioSource>().Play();
+
             impactLight.GetComponent<Renderer>().material.SetColor("_EmissionColor", Color.yellow);
             impactLight.transform.GetChild(0).GetComponent<Light>().enabled = true;
 
@@ -104,7 +129,19 @@ public class GameRule : MonoBehaviour
             cpt--;
         }
 
-        speedAddToCurrent = Random.Range(10f, 30f);
+        switch (difficulty)
+        {
+            case 0:
+                speedAddToCurrent = 10f;
+                break;
+            case 1:
+                speedAddToCurrent = Random.Range(10f, 20f);
+                break;
+            case 2:
+                speedAddToCurrent = Random.Range(10f, 30f);
+                break;
+
+        }
         float speedAdd = speedAddToCurrent;
 
         if (Mathf.Abs(rotations.rotationSpeed1) + speedAdd > 180)
@@ -119,51 +156,7 @@ public class GameRule : MonoBehaviour
             speedAdd += 180 - Mathf.Abs(rotations.rotationSpeed3);
         rotations.rotationSpeed3 = Random.Range(rotations.rotationSpeed3 - speedAdd, rotations.rotationSpeed3 + speedAdd);
 
-        /*switch (difficulty)
-        {
-            case 0:
-                speedAdd = 20f;
-                if (Mathf.Abs(rotations.rotationSpeed1) + speedAdd > 180)
-                    speedAdd += 180 - Mathf.Abs(rotations.rotationSpeed1);
-                rotations.rotationSpeed1 = Random.Range(rotations.rotationSpeed1 - speedAdd, rotations.rotationSpeed1 + speedAdd);
-                speedAdd = 20f;
-                if (Mathf.Abs(rotations.rotationSpeed2) + speedAdd > 180)
-                    speedAdd += 180 - Mathf.Abs(rotations.rotationSpeed2);
-                rotations.rotationSpeed2 = Random.Range(rotations.rotationSpeed2 - speedAdd, rotations.rotationSpeed2 + speedAdd);
-                speedAdd = 20f;
-                if (Mathf.Abs(rotations.rotationSpeed3) + speedAdd > 180)
-                    speedAdd += 180 - Mathf.Abs(rotations.rotationSpeed3);
-                rotations.rotationSpeed3 = Random.Range(rotations.rotationSpeed3 - speedAdd, rotations.rotationSpeed3 + speedAdd);
-                break;
-            case 1:
-                speedAdd = 40f;
-                if (Mathf.Abs(rotations.rotationSpeed1) + speedAdd > 180)
-                    speedAdd += 180 - Mathf.Abs(rotations.rotationSpeed1);
-                rotations.rotationSpeed1 = Random.Range(rotations.rotationSpeed1 - speedAdd, rotations.rotationSpeed1 + speedAdd);
-                speedAdd = 40f;
-                if (Mathf.Abs(rotations.rotationSpeed2) + speedAdd > 180)
-                    speedAdd += 180 - Mathf.Abs(rotations.rotationSpeed2);
-                rotations.rotationSpeed2 = Random.Range(rotations.rotationSpeed2 - speedAdd, rotations.rotationSpeed2 + speedAdd);
-                speedAdd = 40f;
-                if (Mathf.Abs(rotations.rotationSpeed3) + speedAdd > 180)
-                    speedAdd += 180 - Mathf.Abs(rotations.rotationSpeed3);
-                rotations.rotationSpeed3 = Random.Range(rotations.rotationSpeed3 - speedAdd, rotations.rotationSpeed3 + speedAdd);
-                break;
-            case 2:
-                speedAdd = 60f;
-                if (Mathf.Abs(rotations.rotationSpeed1) + speedAdd > 180)
-                    speedAdd += 180 - Mathf.Abs(rotations.rotationSpeed1);
-                rotations.rotationSpeed1 = Random.Range(rotations.rotationSpeed1 - speedAdd, rotations.rotationSpeed1 + speedAdd);
-                speedAdd = 60f;
-                if (Mathf.Abs(rotations.rotationSpeed2) + speedAdd > 180)
-                    speedAdd += 180 - Mathf.Abs(rotations.rotationSpeed2);
-                rotations.rotationSpeed2 = Random.Range(rotations.rotationSpeed2 - speedAdd, rotations.rotationSpeed2 + speedAdd);
-                speedAdd = 60f;
-                if (Mathf.Abs(rotations.rotationSpeed3) + speedAdd > 180)
-                    speedAdd += 180 - Mathf.Abs(rotations.rotationSpeed3);
-                rotations.rotationSpeed3 = Random.Range(rotations.rotationSpeed3 - speedAdd, rotations.rotationSpeed3 + speedAdd);
-                break;
-        }*/
+        impactLight.GetComponent<AudioSource>().Play();
 
         impactLight.GetComponent<Renderer>().material.SetColor("_EmissionColor", Color.yellow);
         impactLight.transform.GetChild(0).GetComponent<Light>().enabled = true;
@@ -178,8 +171,25 @@ public class GameRule : MonoBehaviour
         loop = false;
     }
 
-    void EndGame()
+    void LooseGame()
     {
-        Debug.Log("Fin");
+        Time.timeScale = 0f;
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
+        looseText.SetActive(true);
+        endScreen.SetActive(true);
+        
+        Debug.Log("Loose");
+    }
+
+    void WinGame()
+    {
+        Time.timeScale = 0f;
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
+        winText.SetActive(true);
+        endScreen.SetActive(true);
+        
+        //Debug.Log("End");
     }
 }

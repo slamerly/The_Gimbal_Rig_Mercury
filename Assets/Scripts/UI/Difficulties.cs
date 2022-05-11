@@ -10,14 +10,14 @@ public class Difficulties : MonoBehaviour
 
     public void BackMenu()
     {
-        //GetComponent<AudioSource>().Play();
-        GameObject.Find("Instruction").SetActive(false);
+        Camera.main.GetComponent<AudioSource>().Play();
+        GameObject.Find("Difficulties").SetActive(false);
         UIInstruction.SetActive(true);
     }
 
     public void PlayGameEasy()
     {
-        //GetComponent<AudioSource>().Play();
+        Camera.main.GetComponent<AudioSource>().Play();
         Time.timeScale = 1f;
         StaticClassCrossScene.Difficulty = 0;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
@@ -25,7 +25,7 @@ public class Difficulties : MonoBehaviour
 
     public void PlayGameMedium()
     {
-        //GetComponent<AudioSource>().Play();
+        Camera.main.GetComponent<AudioSource>().Play();
         Time.timeScale = 1f;
         StaticClassCrossScene.Difficulty = 1;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
@@ -33,7 +33,7 @@ public class Difficulties : MonoBehaviour
 
     public void PlayGameHard()
     {
-        //GetComponent<AudioSource>().Play();
+        Camera.main.GetComponent<AudioSource>().Play();
         Time.timeScale = 1f;
         StaticClassCrossScene.Difficulty = 2;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);

@@ -115,7 +115,7 @@ public class Lights : MonoBehaviour
             }
             if (speed >= 405 && speed < 472.5)
             {
-                StartCoroutine(LightFlash(1));
+                StartCoroutine(LightFlash(2));
             }
         }
         if (speed >= 472.5)
@@ -128,6 +128,9 @@ public class Lights : MonoBehaviour
     IEnumerator LightFlash(int status)
     {
         loop = true;
+
+        health.GetComponent<AudioSource>().Play();
+
         health.GetComponent<Renderer>().material.SetColor("_EmissionColor", Color.red);
         health.transform.GetChild(0).GetComponent<Light>().enabled = true;
 

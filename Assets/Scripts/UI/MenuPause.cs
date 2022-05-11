@@ -6,7 +6,6 @@ public class MenuPause : MonoBehaviour
     public static bool GamePaused = false;
 
     public GameObject pauseMenuUI;
-    public GameObject playerCtrl;
 
     // Update is called once per frame
     void Update()
@@ -26,26 +25,37 @@ public class MenuPause : MonoBehaviour
 
     public void Resume()
     {
-        GetComponent<AudioSource>().Play();
-        playerCtrl.GetComponent<PlayerController>().enabled = true;
+        Camera.main.GetComponent<AudioSource>().Play();
+        Time.timeScale = 1f;
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
         pauseMenuUI.SetActive(false);
         GamePaused = false;
     }
 
+
+
     void Pause()
     {
-        playerCtrl.GetComponent<PlayerController>().enabled = false;
+        Camera.main.GetComponent<AudioSource>().Play();
+        Time.timeScale = 0f;
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
         pauseMenuUI.SetActive(true);
         GamePaused = true;
     }
 
+    public void NewGame()
+    {
+        Camera.main.GetComponent<AudioSource>().Play();
+        GamePaused = false;
+        StaticClassCrossScene.DifficultyMenu = true;
+        SceneManager.LoadScene("Menu");
+    }
+
     public void LoadMenu()
     {
-        GetComponent<AudioSource>().Play();
+        Camera.main.GetComponent<AudioSource>().Play();
         GamePaused = false;
         SceneManager.LoadScene("Menu");
     }

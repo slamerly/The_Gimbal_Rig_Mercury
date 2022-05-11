@@ -12,14 +12,14 @@ public class Instruction : MonoBehaviour
 
     public void BackMenu()
     {
-        //GetComponent<AudioSource>().Play();
+        Camera.main.GetComponent<AudioSource>().Play();
         GameObject.Find("Instruction").SetActive(false);
         UIMainMenu.SetActive(true);
     }
 
     public void GoDifficulties()
     {
-        //GetComponent<AudioSource>().Play();
+        Camera.main.GetComponent<AudioSource>().Play();
         GameObject.Find("Instruction").SetActive(false);
         UIDifficulties.SetActive(true);
     }
